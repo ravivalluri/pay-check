@@ -23,7 +23,7 @@ class ModalContainer extends React.Component {
     }
   };
 
-  cancelPopup = e => {
+  cancelModal = e => {
     this.setState({
       dependents: []
     });
@@ -84,10 +84,20 @@ class ModalContainer extends React.Component {
             );
           })}
           <br></br>
-          <Button variant="outline-success" onClick={this.submitDependents}>
+          <Button
+            type="button"
+            className="btn btn-primary"
+            variant="outline-success"
+            onClick={this.submitDependents}
+          >
             Save Dependents
           </Button>
-          <Button variant="outline-dark" onClick={this.cancelPopup}>
+          <Button
+            type="button"
+            className="btn btn-secondary"
+            variant="outline-dark"
+            onClick={this.cancelModal}
+          >
             Cancel
           </Button>
         </div>

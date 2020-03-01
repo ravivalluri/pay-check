@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 class PayBenefits extends Component {
   state = {
     employees: [],
-    showPopup: false
+    showModal: false
   };
 
   //add a new employee to the state
@@ -19,16 +19,16 @@ class PayBenefits extends Component {
   };
 
   //open a modal to display dependents
-  openPopup = () => {
+  openModal = () => {
     this.setState({
-      showPopup: !this.state.showPopup
+      showModal: !this.state.showModal
     });
   };
 
   //save the dependents on an employee
   saveDependents = (d, idx) => {
     this.setState({
-      showPopup: !this.state.showPopup
+      showModal: !this.state.showModal
     });
     this.state.employees[idx].dependents = d;
   };
@@ -79,7 +79,7 @@ class PayBenefits extends Component {
           let lastId = `last-${idx}`;
           let dependentId = `dependent-${idx}`;
           return (
-            <section>
+            <section key={idx}>
               <div>
                 <input
                   name={firstId}
@@ -99,18 +99,18 @@ class PayBenefits extends Component {
                   type="button"
                   className="btn btn-secondary"
                   variant="outline-secondary"
-                  onClick={this.openPopup.bind(this)}
+                  onClick={this.openModal.bind(this)}
                 >
                   Add Dependents
                 </Button>
-                {this.state.showPopup ? (
+                {this.state.showModal ? (
                   <ModalContainer
                     addDependents={d => this.saveDependents(d, idx)}
                     name={dependentId}
                     data-id={idx}
                     id={dependentId}
                     className="dependents"
-                  />
+                  ></ModalContainer>
                 ) : null}
               </div>
             </section>

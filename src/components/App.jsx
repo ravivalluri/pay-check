@@ -54,10 +54,10 @@ class App extends Component {
         <h4>Total Cost Per Year: ${this.state.totalCost.toLocaleString()}</h4>
         {this.state.employees.map(emp => {
           return (
-            <Table className="table">
+            <Table>
               <thead>
                 <tr>
-                  <th scope="row">Name</th>
+                  <th>Name</th>
                   <th>
                     {emp.first} {emp.last}
                   </th>
@@ -66,16 +66,16 @@ class App extends Component {
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">Salary</th>
+                  <th>Salary</th>
                   <td>${emp.yearlySalary}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Benefits Cost </th>
+                  <th>Benefits Cost </th>
                   <td>{emp.hasDiscount === true ? '(-10%)' : ''}</td>
                   <td>${emp.benefitsCost}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Dependents:</th>
+                  <th>Dependents:</th>
                 </tr>
                 {emp.dependents.map(d => {
                   return (
@@ -89,7 +89,7 @@ class App extends Component {
                   );
                 })}
                 <tr>
-                  <th scope="row">Yearly Cost:</th>
+                  <th>Yearly Cost:</th>
                   <td>${emp.costToEmployer}</td>
                 </tr>
               </tbody>
