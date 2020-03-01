@@ -8,7 +8,6 @@ class PayBenefits extends Component {
     showModal: false
   };
 
-  //add a new employee to the state
   addEmployee = e => {
     this.setState(prevState => ({
       employees: [
@@ -18,22 +17,21 @@ class PayBenefits extends Component {
     }));
   };
 
-  //open a modal to display dependents
   openModal = () => {
     this.setState({
       showModal: !this.state.showModal
     });
   };
 
-  //save the dependents on an employee
   saveDependents = (d, idx) => {
     this.setState({
       showModal: !this.state.showModal
     });
-    this.state.employees[idx].dependents = d;
+    this.setState(state => {
+      state.employees[idx].dependents = d;
+    });
   };
 
-  //handle the imput changes
   handleChange = e => {
     if (['first', 'last'].includes(e.target.className)) {
       let employees = [...this.state.employees];
@@ -42,7 +40,6 @@ class PayBenefits extends Component {
     }
   };
 
-  //calculate the employee data to send it to the app
   onCalculate = e => {
     this.props.onCalculate(this.state.employees);
     this.setState({
@@ -50,7 +47,6 @@ class PayBenefits extends Component {
     });
   };
 
-  //preventing submit for all the buttons
   handleSubmit = e => {
     e.preventDefault();
   };
@@ -60,17 +56,18 @@ class PayBenefits extends Component {
       <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
         <div className="row">
           <div className="col-sm-12">
-            <div className="form-group">
-              <h4>Click the button below to add employee information</h4>
-              <Button
-                type="button"
-                className="btn btn-primary"
-                variant="outline-primary"
-                onClick={this.addEmployee}
-              >
-                Add New Employee
-              </Button>
-            </div>
+            <br />
+            <h3>Add employee details below</h3>
+            <br />
+            <Button
+              type="button"
+              className="btn btn-primary"
+              variant="outline-primary"
+              onClick={this.addEmployee}
+            >
+              Add New Employee
+            </Button>
+            <br />
           </div>
         </div>
         <br></br>
@@ -80,29 +77,49 @@ class PayBenefits extends Component {
           let dependentId = `dependent-${idx}`;
           return (
             <section key={idx}>
+              <div className="row">
+                <div className="col-sm-12">
+                  <div className="form-group">
+                    <label>Enter First Name</label>
+                    <input
+                      type="text"
+                      name={firstId}
+                      data-id={idx}
+                      id={firstId}
+                      className="first"
+                      placeholder="First Name"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-sm-12">
+                  <div className="form-group">
+                    <label>Enter Last Name</label>
+                    <input
+                      type="text"
+                      name={lastId}
+                      data-id={idx}
+                      id={lastId}
+                      className="last"
+                      placeholder="Last Name"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-sm-12">
+                  <Button
+                    type="button"
+                    className="btn btn-secondary"
+                    variant="outline-secondary"
+                    onClick={this.openModal.bind(this)}
+                  >
+                    Add Dependents
+                  </Button>
+                </div>
+              </div>
               <div>
-                <input
-                  name={firstId}
-                  data-id={idx}
-                  id={firstId}
-                  className="first"
-                  placeholder="First Name"
-                />
-                <input
-                  name={lastId}
-                  data-id={idx}
-                  id={lastId}
-                  className="last"
-                  placeholder="Last Name"
-                />
-                <Button
-                  type="button"
-                  className="btn btn-secondary"
-                  variant="outline-secondary"
-                  onClick={this.openModal.bind(this)}
-                >
-                  Add Dependents
-                </Button>
                 {this.state.showModal ? (
                   <ModalContainer
                     addDependents={d => this.saveDependents(d, idx)}
@@ -117,14 +134,20 @@ class PayBenefits extends Component {
           );
         })}
         <br></br>
-        <Button
-          type="button"
-          className="btn btn-secondary"
-          variant="outline-success"
-          onClick={e => this.onCalculate(e)}
-        >
-          Calculate
-        </Button>
+        <div className="row">
+          <div className="col-sm-12">
+            <br />
+            <Button
+              type="button"
+              className="btn btn-primary"
+              variant="outline"
+              onClick={e => this.onCalculate(e)}
+            >
+              Calculate the Benefits!
+            </Button>
+            <br />
+          </div>
+        </div>
       </form>
     );
   }

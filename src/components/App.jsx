@@ -4,9 +4,6 @@ import PayBenefits from './PayBenefits';
 import { Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//finding the total cost for each employee and their dependents
-//Example calculation: $2000 + ($1000 or $900)/26 + dependents cost/26
-//estimated cost per year
 class App extends Component {
   setV = {
     checksPerYear: 26,
@@ -22,8 +19,6 @@ class App extends Component {
     totalCost: 0,
     employees: []
   };
-
-  //when onSubmit is called from the component
   onSubmit = input => {
     var calculated = this._calculateCost(input);
     this.setState(this.state);
@@ -50,8 +45,15 @@ class App extends Component {
           </button>
         </nav>
         <PayBenefits onCalculate={fields => this.onSubmit(fields)} />
-
-        <h4>Total Cost Per Year: ${this.state.totalCost.toLocaleString()}</h4>
+        <div className="row">
+          <div className="col-sm-12">
+            <br />
+            <h4>
+              Total Cost Per Year: ${this.state.totalCost.toLocaleString()}
+            </h4>
+            <br />
+          </div>
+        </div>
         {this.state.employees.map(emp => {
           return (
             <Table>
@@ -100,7 +102,6 @@ class App extends Component {
     );
   }
 
-  //Calculate the cost for each employee
   _calculateCost(employees) {
     var calculatedEmployees = [];
     employees.forEach(employee => {
@@ -117,18 +118,17 @@ class App extends Component {
       var dependentCost = this._calculateDependents(employeeObj);
       employeeObj.costToEmployer =
         employeeObj.yearlySalary + benefitCost + dependentCost;
-      this.state.totalCost += employeeObj.costToEmployer;
+      this.setState(state => {
+        state.totalCost += employeeObj.costToEmployer;
+      });
       calculatedEmployees.push(employeeObj);
     });
     return calculatedEmployees;
   }
 
-  //showing the benefits for each employee
   _calculateEmployee(employee) {
     var costToEmployer = 0;
     if (employee.first[0].toUpperCase() === 'A') {
-      ///   1000 - (1000 * .6)  usually employee pays 600 employer pays 400
-      ///   1000 - (1000 * .6) * .9 discount employee pays 540 employer pays 460
       costToEmployer = parseFloat(
         (
           this.setV.yearlyBenefit -
@@ -151,7 +151,6 @@ class App extends Component {
     return costToEmployer;
   }
 
-  //showing the benefits for dependents of the employees
   _calculateDependents(employee) {
     var cost = 0;
     var newDeps = [];

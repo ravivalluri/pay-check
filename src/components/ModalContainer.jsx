@@ -1,12 +1,11 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 class ModalContainer extends React.Component {
   state = {
     dependents: []
   };
 
-  //adding a new dependent on the employee
   addDependent = e => {
     this.setState(prevState => ({
       dependents: [...prevState.dependents, { dfirst: '', dlast: '' }]
@@ -30,7 +29,6 @@ class ModalContainer extends React.Component {
     this.props.addDependents(this.state.dependents);
   };
 
-  //call the state to send data to App
   submitDependents = e => {
     this.props.addDependents(this.state.dependents);
     this.setState({
@@ -38,7 +36,6 @@ class ModalContainer extends React.Component {
     });
   };
 
-  //prevent submit of all buttons
   handleSubmit = e => {
     e.preventDefault();
   };
@@ -46,60 +43,86 @@ class ModalContainer extends React.Component {
   render() {
     return (
       <div
-        className="modal"
+        className="popup"
         onSubmit={this.handleSubmit}
         onChange={this.handleChange}
       >
-        <div className="modal-inner">
-          <Button
-            type="button"
-            className="btn btn-primary"
-            variant="outline-primary"
-            onClick={this.addDependent}
-          >
-            New Dependent
-          </Button>
+        <div className="popup-inner">
+          <br />
+          <div className="row">
+            <div className="col-sm-12">
+              <Button
+                type="button"
+                className="btn btn-primary"
+                variant="outline-primary"
+                onClick={this.addDependent}
+              >
+                New Dependent
+              </Button>
+            </div>
+          </div>
+          <br />
           {this.state.dependents.map((val, idx) => {
             let firstId = `first-${idx}`;
             let lastId = `last-${idx}`;
             return (
               <section key={idx}>
-                <div>
-                  <input
-                    name={firstId}
-                    data-id={idx}
-                    id={firstId}
-                    className="dfirst"
-                    placeholder="First Name"
-                  />
-                  <input
-                    name={lastId}
-                    data-id={idx}
-                    id={lastId}
-                    className="dlast"
-                    placeholder="Last Name"
-                  />
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="form-group">
+                      <label>Enter Dependent's First Name</label>
+                      <input
+                        type="text"
+                        name={firstId}
+                        data-id={idx}
+                        id={firstId}
+                        className="dfirst"
+                        placeholder="First Name"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="form-group">
+                      <label>Enter Dependent's Last Name</label>
+                      <input
+                        type="text"
+                        name={lastId}
+                        data-id={idx}
+                        id={lastId}
+                        className="dlast"
+                        placeholder="Last Name"
+                      />
+                    </div>
+                  </div>
                 </div>
               </section>
             );
           })}
           <br></br>
-          <Button
-            type="button"
-            className="btn btn-primary"
-            variant="outline-success"
-            onClick={this.submitDependents}
-          >
-            Save Dependents
-          </Button>
-          <Button
-            type="button"
-            className="btn btn-secondary"
-            variant="outline-dark"
-            onClick={this.cancelModal}
-          >
-            Cancel
-          </Button>
+          <div className="row">
+            <div className="col-sm-6">
+              <Button
+                type="button"
+                className="btn btn-primary"
+                variant="outline-success"
+                onClick={this.submitDependents}
+              >
+                Save Dependents
+              </Button>
+            </div>
+            <div className="col-sm-6">
+              <Button
+                type="button"
+                className="btn btn-secondary"
+                variant="outline-dark"
+                onClick={this.cancelModal}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );
